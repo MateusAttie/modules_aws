@@ -17,17 +17,17 @@ resource "aws_s3_object" "s3-lambda-attielabz" {
   bucket = aws_s3_bucket.lambda-bucket.id
 
   key    =  var.lambda_s3_key
-  source = data.archive_file.file-lambda-attielab.output_path
+  source = data.archive_file.file-lambda-attielabz.output_path
 
-  etag = filemd5(data.archive_file.file-lambda-attielab.output_path)
+  etag = filemd5(data.archive_file.file-lambda-attielabz.output_path)
 }
 
 
 resource "aws_lambda_function" "lambda-attielabz" {
   function_name =  var.lambda_name
 
-  s3_bucket = aws_s3_bucket.file-lambda-attielab.id
-  s3_key    = aws_s3_object.file-lambda-attielab.key
+  s3_bucket = aws_s3_bucket.file-lambda-attielabz.id
+  s3_key    = aws_s3_object.file-lambda-attielabz.key
 
   runtime =  var.lambda_runtime
   handler =  var.lambda_handler 
