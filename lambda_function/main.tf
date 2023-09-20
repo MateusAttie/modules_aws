@@ -26,8 +26,8 @@ resource "aws_s3_object" "s3-lambda-attielabz" {
 resource "aws_lambda_function" "lambda-attielabz" {
   function_name =  var.lambda_name
 
-  s3_bucket = aws_s3_bucket.file-lambda-attielabz.id
-  s3_key    = aws_s3_object.file-lambda-attielabz.key
+  s3_bucket = aws_s3_bucket.lambda-bucket.id
+  s3_key    = aws_s3_object.s3-lambda-attielabz.key
 
   runtime =  var.lambda_runtime
   handler =  var.lambda_handler 
