@@ -1,36 +1,44 @@
-data "archive_file" "lambda_attielabz" {
+data "archive_file" "file-lambda-attielabz" {
   type = "zip"
 
   source_dir  = var.lambda_source_dir
   output_path = var.lambda_output_path
 }
 
-resource "aws_s3_object" "lambda_attielabz" {
-  bucket = aws_s3_bucket.lambda_bucket.id
+resource "aws_s3_bucket" "lambda-bucket" {
+  bucket = var.lambda_bucket_name
+
+  tags = {
+    Name        = var.lambda_bucket_name
+  }
+}
+
+resource "aws_s3_object" "s3-lambda-attielabz" {
+  bucket = aws_s3_bucket.lambda-bucket.id
 
   key    =  var.lambda_s3_key
-  source = data.archive_file.lambda_attielabz.output_path
+  source = data.archive_file.file-lambda-attielab.output_path
 
-  etag = filemd5(data.archive_file.lambda_attielabz.output_path)
+  etag = filemd5(data.archive_file.file-lambda-attielab.output_path)
 }
 
 
-resource "aws_lambda_function" "AttieLabz" {
+resource "aws_lambda_function" "lambda-attielabz" {
   function_name =  var.lambda_name
 
-  s3_bucket = aws_s3_bucket.lambda_bucket.id
-  s3_key    = aws_s3_object.lambda_attielabz.key
+  s3_bucket = aws_s3_bucket.file-lambda-attielab.id
+  s3_key    = aws_s3_object.file-lambda-attielab.key
 
   runtime =  var.lambda_runtime
   handler =  var.lambda_handler 
 
-  source_code_hash = data.archive_file.lambda_attielabz.output_base64sha256
+  source_code_hash = data.archive_file.file-lambda-attielabz.output_base64sha256
 
   role = aws_iam_role.lambda_exec.arn
 }
 
 resource "aws_cloudwatch_log_group" "attielabz-cloudwatch" {
-  name = "/aws/lambda/${aws_lambda_function.hello_world.function_name}"
+  name = "/aws/lambda/${aws_lambda_function.lambda-attielabz.function_name}"
 
   retention_in_days = 7
 }
