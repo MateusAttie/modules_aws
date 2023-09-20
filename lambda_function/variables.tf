@@ -20,3 +20,7 @@ variable "lambda_s3_key" {
  variable "lambda_handler" {
    type = string
  }
+
+ variable "lambda_iam_role_name" {
+   type =  string
+ }
