@@ -1,16 +1,16 @@
+resource "aws_s3_bucket" "lambda-bucket" {
+  bucket = var.lambda_bucket_name
+  acl           = "private"
+  tags = {
+    Name        = var.lambda_bucket_name
+  }
+}
+
 data "archive_file" "file-lambda-attielabz" {
   type = "zip"
 
   source_dir  = var.lambda_source_dir
   output_path = var.lambda_output_path
-}
-
-resource "aws_s3_bucket" "lambda-bucket" {
-  bucket = var.lambda_bucket_name
-
-  tags = {
-    Name        = var.lambda_bucket_name
-  }
 }
 
 resource "aws_s3_object" "s3-lambda-attielabz" {
