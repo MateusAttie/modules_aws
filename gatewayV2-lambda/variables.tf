@@ -6,7 +6,7 @@ variable "gtw_stage_name" {
   type = string
 }
 
-variable "invoke_arnarn_lambda_function" {
+variable "invoke_arn_lambda_function" {
   type = string
 }
 
