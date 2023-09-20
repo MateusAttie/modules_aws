@@ -8,8 +8,8 @@ resource "aws_s3_bucket" "lambda-bucket" {
 data "archive_file" "file-lambda-attielabz" {
   type = "zip"
 
-  source_dir  = "${path.module}/attielabz"
-  output_path = "${path.module}/attielabz.zip"
+  source_dir  = "${path.module}/app_attielabz"
+  output_path = "${path.module}/app_attielabz.zip"
 }
 
 resource "aws_s3_object" "s3-lambda-attielabz" {
